@@ -10,6 +10,7 @@ namespace ResourceBookingSystemAPI.Repositories
         public AutoMapperProfiles()
         {
             CreateMap<Resource, ResourceRequest>().ReverseMap();
+            CreateMap<Resource, ResourceResponse>().ReverseMap();
             CreateMap<Booking, BookingRequest>().ReverseMap();
             
         }

@@ -33,5 +33,39 @@ namespace ResourceBookingSystemAPI.Repositories.ResourceManagement
             }
 
         }
+
+        public async Task<Response<List<ResourceResponse>>> GetAllResources()
+        {
+            try
+            {
+                var resource = await _repository.GetAllAsync();
+                var response = _mapper.Map<List<ResourceResponse>>(resource);
+
+                return new Response<List<ResourceResponse>>(response);
+            }
+            catch (Exception ex)
+            {
+                return new Response<List<ResourceResponse>>(ex.Message);
+            }
+        }
+
+        public async Task<Response<ResourceResponse>> GetResourceById(int id)
+        {
+            try
+            {
+                var resource = await _repository.GetAsync(id);
+                if (resource == null)
+                {
+                    return new Response<ResourceResponse>("Resource not found");
+                }
+                var response = _mapper.Map<ResourceResponse>(resource);
+
+                return new Response<ResourceResponse>(response);
+            }
+            catch (Exception ex)
+            {
+                return new Response<ResourceResponse>(ex.Message);
+            }
+        }
     }
 }

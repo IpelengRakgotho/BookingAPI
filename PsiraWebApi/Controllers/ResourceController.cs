@@ -27,5 +27,30 @@ namespace ResourceBookingSystemAPI.Controllers
             }
             return BadRequest(response);
         }
+
+
+        [HttpGet]
+        [Route("GetAllResources")]
+        public async Task<IActionResult> GetResources()
+        {
+            var response = await _resourceRepository.GetAllResources();
+            if (response.Succeeded)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+        [HttpGet]
+        [Route("GetResourceById")]
+        public async Task<IActionResult> GetResourceByID(int id)
+        {
+            var response = await _resourceRepository.GetResourceById(id);
+            if (response.Succeeded)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
     }
 }
