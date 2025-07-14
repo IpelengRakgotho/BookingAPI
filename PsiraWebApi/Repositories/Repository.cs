@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PsiraWebApi.Interfaces;
+using ResourceBookingSystemAPI.Interfaces;
 using System.Linq.Expressions;
 
 namespace PsiraWebApi.Repositories
@@ -7,10 +8,10 @@ namespace PsiraWebApi.Repositories
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
 
-        private readonly IPsiraDbContext _context;
+        private readonly IApplicationDbContext _context;
         private readonly DbSet<TEntity> _dbSet;
 
-        public Repository(IPsiraDbContext context)
+        public Repository(IApplicationDbContext context)
         {
             _context = context;
             _dbSet = _context.Set<TEntity>();

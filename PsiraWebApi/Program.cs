@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using PsiraWebApi.DBData;
 using PsiraWebApi.Interfaces;
 using Microsoft.Extensions.Configuration;
 using AutoMapper;
@@ -7,7 +6,9 @@ using PsiraWebApi.Repository;
 using PsiraWebApi.Repositories.UserManagement;
 using PsiraWebApi.Repositories;
 using PsiraWebApi.Repositories.PostManagement;
-using PsiraWebApi.Repositories.LookupManagement; // Add this using directive
+using PsiraWebApi.Repositories.LookupManagement;
+using ResourceBookingSystemAPI.DBData;
+using ResourceBookingSystemAPI.Interfaces; // Add this using directive
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +37,7 @@ builder.Services.AddDbContextPool<PsiraDbContext>(options =>
 //services.Configure<ApiIntegrationCircleModel>(Configuration.GetSection("IntegrationCircleAPI"));
 
 //interfaces dependency injection
-builder.Services.AddTransient<IPsiraDbContext, PsiraDbContext>();
+builder.Services.AddTransient<IApplicationDbContext, PsiraDbContext>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IPostRepository, PostRepository>();
 builder.Services.AddTransient<ILookupRepository, LookupRepository>();

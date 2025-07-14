@@ -3,15 +3,16 @@ using PsiraWebApi.Entities;
 using PsiraWebApi.Interfaces;
 using PsiraWebApi.Repositories.LookupManagement.Models;
 using PsiraWebApi.Wrappers;
+using ResourceBookingSystemAPI.Interfaces;
 
 namespace PsiraWebApi.Repositories.LookupManagement
 {
     public class LookupRepository : ILookupRepository
     {
-        private readonly IPsiraDbContext _context;
+        private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly IRepository<Lookup> _repository;
-        public LookupRepository(IPsiraDbContext context, IMapper mapper, IRepository<Lookup> repository)
+        public LookupRepository(IApplicationDbContext context, IMapper mapper, IRepository<Lookup> repository)
         {
             _context = context;
             _mapper = mapper;
