@@ -21,5 +21,17 @@ namespace ResourceBookingSystemAPI.DBData
         {
             return base.SaveChangesAsync();
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // One-to-Many: Resource has many Bookings
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.Resource)
+                .WithMany(r => r.Booking)
+                .HasForeignKey(b => b.ResourceId)
+                .OnDelete(DeleteBehavior.Cascade); // Optional: Cascade on delete
+        }
     }
 }

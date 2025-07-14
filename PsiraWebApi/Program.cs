@@ -2,13 +2,14 @@ using Microsoft.EntityFrameworkCore;
 using PsiraWebApi.Interfaces;
 using Microsoft.Extensions.Configuration;
 using AutoMapper;
-using PsiraWebApi.Repository;
+//using PsiraWebApi.Repository;
 using PsiraWebApi.Repositories.UserManagement;
-using PsiraWebApi.Repositories;
 using PsiraWebApi.Repositories.PostManagement;
 using PsiraWebApi.Repositories.LookupManagement;
 using ResourceBookingSystemAPI.DBData;
-using ResourceBookingSystemAPI.Interfaces; // Add this using directive
+using ResourceBookingSystemAPI.Interfaces;
+using ResourceBookingSystemAPI.Repositories;
+using ResourceBookingSystemAPI.Repositories.ResourceManagement; // Add this using directive
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,20 +28,22 @@ IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
 // Injecting DbContext before app build
-builder.Services.AddDbContextPool<PsiraDbContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("PsiraDBDev"),
-    new MySqlServerVersion(new Version(8, 0, 24))
-));
+builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("BookingDB"))
+);
+
 
 //services.AddDbContext<ISAPSFirearmsDBContext, AssetsDBContext>(options =>
 //                          options.UseSqlServer(Configuration.GetConnectionString("SAPSFirearmsDBDev"), o => o.MigrationsAssembly("Assets.SmartZar.Persistance")));
 //services.Configure<ApiIntegrationCircleModel>(Configuration.GetSection("IntegrationCircleAPI"));
 
 //interfaces dependency injection
-builder.Services.AddTransient<IApplicationDbContext, PsiraDbContext>();
-builder.Services.AddTransient<IUserRepository, UserRepository>();
-builder.Services.AddTransient<IPostRepository, PostRepository>();
-builder.Services.AddTransient<ILookupRepository, LookupRepository>();
+builder.Services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
+builder.Services.AddTransient<IResourceRepository, ResourceRepository>();
+//builder.Services.AddTransient<IUserRepository, UserRepository>();
+//builder.Services.AddTransient<IUserRepository, UserRepository>();
+//builder.Services.AddTransient<IPostRepository, PostRepository>();
+//builder.Services.AddTransient<ILookupRepository, LookupRepository>();
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
 

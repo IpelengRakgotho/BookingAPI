@@ -4,6 +4,7 @@ using PsiraWebApi.Interfaces;
 using PsiraWebApi.Repositories.PostManagement.Models;
 using PsiraWebApi.Repositories.UserManagement.Models;
 using PsiraWebApi.Wrappers;
+using ResourceBookingSystemAPI.Interfaces;
 
 namespace PsiraWebApi.Repositories.UserManagement
 {

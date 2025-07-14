@@ -1,24 +1,17 @@
 ﻿using AutoMapper;
-using PsiraWebApi.Entities;
-using PsiraWebApi.Repositories.LookupManagement.Models;
-using PsiraWebApi.Repositories.PostManagement.Models;
-using PsiraWebApi.Repositories.UserManagement.Models;
+using ResourceBookingSystemAPI.Entities;
+using ResourceBookingSystemAPI.Repositories.BookingManagement.Model;
+using ResourceBookingSystemAPI.Repositories.ResourceManagement.Model;
 
-namespace PsiraWebApi.Repository
+namespace ResourceBookingSystemAPI.Repositories
 {
     public class AutoMapperProfiles : Profile
     {
         public AutoMapperProfiles()
         {
-            CreateMap<User, UserRequest>().ReverseMap();
-            CreateMap<User, UserResponse>().ReverseMap();
-            CreateMap<User, UserRequest>().ReverseMap();
-            CreateMap<Post, PostRequest>().ReverseMap();
-            CreateMap<Post, PostResponse>().ReverseMap();
-            CreateMap<Lookup, LookupRequest>().ReverseMap();
-            CreateMap<Documents, DocumentRequest>().ReverseMap();
-            CreateMap<Documents, DocumentResponse>().ReverseMap();
-            CreateMap<User, LoginResponse>().ReverseMap();
+            CreateMap<Resource, ResourceRequest>().ReverseMap();
+            CreateMap<Booking, BookingRequest>().ReverseMap();
+            
         }
     }
 }

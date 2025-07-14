@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace PsiraWebApi.Interfaces
+namespace ResourceBookingSystemAPI.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : class
     {
@@ -17,7 +17,7 @@ namespace PsiraWebApi.Interfaces
         Task<TEntity> DeleteAsync(long id);
         Task<TEntity> DeleteAsync(int id);
         Task<List<TEntity>> DeleteAsync(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes);
-        List<TEntity> FromSqlRaw(string sql);
+        //List<TEntity> FromSqlRaw(string sql);
         int SaveChanges();
         Task<int> SaveChangesAsync();
     }

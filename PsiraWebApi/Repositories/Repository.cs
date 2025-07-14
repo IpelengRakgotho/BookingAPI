@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PsiraWebApi.Interfaces;
 using ResourceBookingSystemAPI.Interfaces;
 using System.Linq.Expressions;
 
-namespace PsiraWebApi.Repositories
+namespace ResourceBookingSystemAPI.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
@@ -115,10 +114,10 @@ namespace PsiraWebApi.Repositories
             return entities;
         }
 
-        public List<TEntity> FromSqlRaw(string sql)
-        {
-            return _dbSet.FromSqlRaw(sql).ToList();
-        }
+        //public List<TEntity> FromSqlRaw(string sql)
+        //{
+        //    return _dbSet.FromSqlRaw(sql).ToList();
+        //}
 
         public int SaveChanges()
         {

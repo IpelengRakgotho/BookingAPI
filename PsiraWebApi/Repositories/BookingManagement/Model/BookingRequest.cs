@@ -1,13 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using ResourceBookingSystemAPI.Entities;
 
-namespace ResourceBookingSystemAPI.Entities
+namespace ResourceBookingSystemAPI.Repositories.BookingManagement.Model
 {
-    public class Booking
+    public class BookingRequest
     {
-        [Key]
-        public int BookingId { get; set; }
-        [ForeignKey("Resource")]
         public int ResourceId { get; set; }
 
         // Navigation to parent Resource
@@ -16,6 +12,5 @@ namespace ResourceBookingSystemAPI.Entities
         public DateTime? EndTime { get; set; }
         public string? BookedBy { get; set; }
         public string? Purpose { get; set; }
-
     }
 }
