@@ -1,0 +1,6 @@
+@PsiraWebApi_HostAddress = http://localhost:5028
+
+GET {{PsiraWebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,23 @@
+# Ignore Visual Studio workspace settings
+.vs/
+*.user
+*.suo
+
+# Build outputs
+bin/
+obj/
+
+# Others
+*.log
+*.tlog
+*.dbmdl
+*.cache
+*.pdb
+*.ldf
+*.mdf
+
+# User-specific files
+*.userosscache
+*.sln.docstates
+
+
