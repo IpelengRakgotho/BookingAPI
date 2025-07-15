@@ -82,20 +82,47 @@ namespace ResourceBookingSystemAPI.Repositories.BookingManagement
             }
         }
 
+        //public async Task<Response<List<BookingResponse>>> GetAllBookings()
+        //{
+        //    try
+        //    {
+        //        var booking = await _repository.GetAllAsync();
+        //        var response = _mapper.Map<List<BookingResponse>>(booking);
+
+        //        return new Response<List<BookingResponse>>(response);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new Response<List<BookingResponse>>(ex.Message);
+        //    }
+        //}
+
         public async Task<Response<List<BookingResponse>>> GetAllBookings()
         {
             try
             {
-                var booking = await _repository.GetAllAsync();
-                var response = _mapper.Map<List<BookingResponse>>(booking);
+                var bookings = await _db.Booking
+                    .Include(b => b.Resource) // assuming navigation property exists
+                    .Select(b => new BookingResponse
+                    {
+                        BookingId = b.BookingId,
+                        ResourceId = b.ResourceId,
+                        StartTime = (DateTime)b.StartTime,
+                        EndTime = (DateTime)b.EndTime,
+                        BookedBy = b.BookedBy,
+                        Purpose = b.Purpose,
+                        ResourceName = b.Resource.Name  // <-- Include resource name
+                    })
+                    .ToListAsync();
 
-                return new Response<List<BookingResponse>>(response);
+                return new Response<List<BookingResponse>>(bookings, "Bookings retrieved.");
             }
-            catch (Exception ex)
+            catch
             {
-                return new Response<List<BookingResponse>>(ex.Message);
+                return new Response<List<BookingResponse>>("Failed to retrieve bookings.");
             }
         }
+
 
         public async Task<Response<BookingResponse>> GetBookingById(int id)
         {

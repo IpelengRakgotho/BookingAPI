@@ -78,7 +78,7 @@ namespace ResourceBookingSystemAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("Delete")]
+        [Route("Delete/{bookingId}")]
         public async Task<IActionResult> Delete(int bookingId)
         {
             var response = await _bookingRepository.DeleteBooking(bookingId);
