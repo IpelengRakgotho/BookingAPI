@@ -96,5 +96,53 @@ namespace ResourceBookingSystemAPI.Repositories.BookingManagement
                 return new Response<List<BookingResponse>>(ex.Message);
             }
         }
+
+        public async Task<Response<int>> UpdateBooking(UpdateBooking request)
+        {
+            try
+            {
+                if (request == null)
+                    return new Response<int>("Data is missing.");
+
+                var booking = await _db.Booking.FirstOrDefaultAsync(x => x.BookingId == request.BookingId);
+                if (booking == null)
+                    return new Response<int>("Booking does not exist.");
+
+                _mapper.Map(request, booking);
+              
+
+                _repository.Update(booking);
+                await _repository.SaveChangesAsync();
+
+                return new Response<int>(booking.BookingId, "Booking Updated Successfully.");
+            }
+            catch (Exception ex)
+            {
+               
+                return new Response<int>("Error while updating Booking.");
+            }
+        }
+
+        public async Task<Response<int>> DeleteBooking(int bookingId)
+        {
+            try
+            {
+                if (bookingId <= 0)
+                    return new Response<int>("Invalid Booking ID.");
+
+                var deletedResource = await _repository.DeleteAsync(bookingId);
+                if (deletedResource == null)
+                    return new Response<int>("Booking not found or already deleted.");
+
+                await _repository.SaveChangesAsync();
+
+                return new Response<int>(bookingId, "Booking deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+
+                return new Response<int>("Error while deleting booking.");
+            }
+        }
     }
 }

@@ -53,5 +53,28 @@ namespace ResourceBookingSystemAPI.Controllers
             return BadRequest(response);
         }
 
+        [HttpPut]
+        [Route("Update")]
+        public async Task<IActionResult> Update(UpdateBooking request)
+        {
+            var response = await _bookingRepository.UpdateBooking(request);
+            if (response.Succeeded)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+        [HttpDelete]
+        [Route("Delete")]
+        public async Task<IActionResult> Delete(int bookingId)
+        {
+            var response = await _bookingRepository.DeleteBooking(bookingId);
+            if (response.Succeeded)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
     }
 }

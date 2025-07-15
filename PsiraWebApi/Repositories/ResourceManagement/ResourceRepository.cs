@@ -81,7 +81,7 @@ namespace ResourceBookingSystemAPI.Repositories.ResourceManagement
                     return new Response<int>("Resource does not exist.");
 
                 _mapper.Map(request, resource);
-                // Add updated date if needed: resource.ModifiedDate = DateTime.Now;
+               
 
                 _repository.Update(resource);
                 await _repository.SaveChangesAsync();
@@ -90,7 +90,7 @@ namespace ResourceBookingSystemAPI.Repositories.ResourceManagement
             }
             catch (Exception ex)
             {
-                // Optionally log ex
+               
                 return new Response<int>("Error while updating Resource.");
             }
         }
@@ -112,7 +112,7 @@ namespace ResourceBookingSystemAPI.Repositories.ResourceManagement
             }
             catch (Exception ex)
             {
-                // Optionally log ex.Message
+                
                 return new Response<int>("Error while deleting resource.");
             }
         }
