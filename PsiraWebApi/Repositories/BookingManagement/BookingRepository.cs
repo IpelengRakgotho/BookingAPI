@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ResourceBookingSystemAPI.Entities;
 using ResourceBookingSystemAPI.Interfaces;
 using ResourceBookingSystemAPI.Repositories.BookingManagement.Model;
+using ResourceBookingSystemAPI.Repositories.ResourceManagement.Model;
 using ResourceBookingSystemAPI.Wrappers;
 
 namespace ResourceBookingSystemAPI.Repositories.BookingManagement
@@ -50,6 +51,49 @@ namespace ResourceBookingSystemAPI.Repositories.BookingManagement
             {
                 // Optionally log ex
                 return new Response<int>("Error while adding booking.");
+            }
+        }
+
+        public async Task<Response<List<UpcomingBookings>>> GetUpcomingBookings(int resourceId)
+        {
+            try
+            {
+                if (resourceId <= 0)
+                    return new Response<List<UpcomingBookings>>("Invalid Resource ID.");
+
+                var bookings = await _db.Booking
+                    .Where(b => b.ResourceId == resourceId && b.StartTime >= DateTime.Now)
+                    .OrderBy(b => b.StartTime)
+                    .Select(b => new UpcomingBookings
+                    {
+                        BookingId = b.BookingId,
+                        StartTime = (DateTime)b.StartTime,
+                        EndTime = (DateTime)b.EndTime,
+                        BookedBy = b.BookedBy,
+                        Purpose = b.Purpose
+                    })
+                    .ToListAsync();
+
+                return new Response<List<UpcomingBookings>>(bookings, "Upcoming bookings fetched.");
+            }
+            catch (Exception ex)
+            {
+                return new Response<List<UpcomingBookings>>("Error while fetching bookings.");
+            }
+        }
+
+        public async Task<Response<List<BookingResponse>>> GetAllBookings()
+        {
+            try
+            {
+                var booking = await _repository.GetAllAsync();
+                var response = _mapper.Map<List<BookingResponse>>(booking);
+
+                return new Response<List<BookingResponse>>(response);
+            }
+            catch (Exception ex)
+            {
+                return new Response<List<BookingResponse>>(ex.Message);
             }
         }
     }

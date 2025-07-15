@@ -13,6 +13,8 @@ namespace ResourceBookingSystemAPI.Repositories
             CreateMap<Resource, ResourceResponse>().ReverseMap();
             CreateMap<Resource, UpdateResource>().ReverseMap();
             CreateMap<Booking, BookingRequest>().ReverseMap();
+            CreateMap<Booking, BookingResponse>().ReverseMap();
+            CreateMap<Booking, UpcomingBookings>().ReverseMap();
             
         }
     }
