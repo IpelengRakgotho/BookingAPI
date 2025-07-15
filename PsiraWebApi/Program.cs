@@ -4,7 +4,8 @@ using AutoMapper;
 using ResourceBookingSystemAPI.DBData;
 using ResourceBookingSystemAPI.Interfaces;
 using ResourceBookingSystemAPI.Repositories;
-using ResourceBookingSystemAPI.Repositories.ResourceManagement; // Add this using directive
+using ResourceBookingSystemAPI.Repositories.ResourceManagement;
+using ResourceBookingSystemAPI.Repositories.BookingManagement; 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,17 +29,11 @@ builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
 );
 
 
-//services.AddDbContext<ISAPSFirearmsDBContext, AssetsDBContext>(options =>
-//                          options.UseSqlServer(Configuration.GetConnectionString("SAPSFirearmsDBDev"), o => o.MigrationsAssembly("Assets.SmartZar.Persistance")));
-//services.Configure<ApiIntegrationCircleModel>(Configuration.GetSection("IntegrationCircleAPI"));
 
 //interfaces dependency injection
 builder.Services.AddTransient<IApplicationDbContext, ApplicationDbContext>();
 builder.Services.AddTransient<IResourceRepository, ResourceRepository>();
-//builder.Services.AddTransient<IUserRepository, UserRepository>();
-//builder.Services.AddTransient<IUserRepository, UserRepository>();
-//builder.Services.AddTransient<IPostRepository, PostRepository>();
-//builder.Services.AddTransient<ILookupRepository, LookupRepository>();
+builder.Services.AddTransient<IBookingRepository, BookingRepository>();
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
 
