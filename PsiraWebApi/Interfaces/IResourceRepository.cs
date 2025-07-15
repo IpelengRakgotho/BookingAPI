@@ -9,5 +9,6 @@ namespace ResourceBookingSystemAPI.Interfaces
         Task<Response<List<ResourceResponse>>> GetAllResources();
         Task<Response<ResourceResponse>> GetResourceById(int id);
         Task<Response<int>> UpdateResource(UpdateResource request);
+        Task<Response<int>> DeleteResource(int resourceId);
     }
 }

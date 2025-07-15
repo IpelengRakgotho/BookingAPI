@@ -95,5 +95,28 @@ namespace ResourceBookingSystemAPI.Repositories.ResourceManagement
             }
         }
 
+        public async Task<Response<int>> DeleteResource(int resourceId)
+        {
+            try
+            {
+                if (resourceId <= 0)
+                    return new Response<int>("Invalid Resource ID.");
+
+                var deletedResource = await _repository.DeleteAsync(resourceId);
+                if (deletedResource == null)
+                    return new Response<int>("Resource not found or already deleted.");
+
+                await _repository.SaveChangesAsync();
+
+                return new Response<int>(resourceId, "Resource deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                // Optionally log ex.Message
+                return new Response<int>("Error while deleting resource.");
+            }
+        }
+
+
     }
 }

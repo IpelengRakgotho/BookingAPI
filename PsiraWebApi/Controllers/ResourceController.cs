@@ -54,10 +54,22 @@ namespace ResourceBookingSystemAPI.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateResource")]
+        [Route("Update")]
         public async Task<IActionResult> Update(UpdateResource resource)
         {
             var response = await _resourceRepository.UpdateResource(resource);
+            if (response.Succeeded)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+        [HttpDelete]
+        [Route("Delete")]
+        public async Task<IActionResult> Delete(int resourceId)
+        {
+            var response = await _resourceRepository.DeleteResource(resourceId);
             if (response.Succeeded)
             {
                 return Ok(response);
