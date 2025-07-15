@@ -97,6 +97,25 @@ namespace ResourceBookingSystemAPI.Repositories.BookingManagement
             }
         }
 
+        public async Task<Response<BookingResponse>> GetBookingById(int id)
+        {
+            try
+            {
+                var booking = await _repository.GetAsync(id);
+                if (booking == null)
+                {
+                    return new Response<BookingResponse>("Resource not found");
+                }
+                var response = _mapper.Map<BookingResponse>(booking);
+
+                return new Response<BookingResponse>(response);
+            }
+            catch (Exception ex)
+            {
+                return new Response<BookingResponse>(ex.Message);
+            }
+        }
+
         public async Task<Response<int>> UpdateBooking(UpdateBooking request)
         {
             try

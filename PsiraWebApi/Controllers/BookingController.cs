@@ -53,6 +53,18 @@ namespace ResourceBookingSystemAPI.Controllers
             return BadRequest(response);
         }
 
+        [HttpGet]
+        [Route("GetBookingById/{id}")]
+        public async Task<IActionResult> GetBookingById(int id)
+        {
+            var response = await _bookingRepository.GetBookingById(id);
+            if (response.Succeeded)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
         [HttpPut]
         [Route("Update")]
         public async Task<IActionResult> Update(UpdateBooking request)

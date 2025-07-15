@@ -30,7 +30,7 @@ namespace ResourceBookingSystemAPI.Controllers
 
 
         [HttpGet]
-        [Route("GetAllResources")]
+        [Route("GetResources")]
         public async Task<IActionResult> GetResources()
         {
             var response = await _resourceRepository.GetAllResources();
@@ -42,8 +42,8 @@ namespace ResourceBookingSystemAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetResourceById")]
-        public async Task<IActionResult> GetResourceByID(int id)
+        [Route("GetResourceById/{id}")]
+        public async Task<IActionResult> GetResourceById(int id)
         {
             var response = await _resourceRepository.GetResourceById(id);
             if (response.Succeeded)
@@ -66,7 +66,7 @@ namespace ResourceBookingSystemAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("Delete")]
+        [Route("Delete/{resourceId}")]
         public async Task<IActionResult> Delete(int resourceId)
         {
             var response = await _resourceRepository.DeleteResource(resourceId);

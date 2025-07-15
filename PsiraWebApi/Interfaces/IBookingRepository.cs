@@ -9,6 +9,7 @@ namespace ResourceBookingSystemAPI.Interfaces
         Task<Response<int>> AddBooking(BookingRequest request);
         Task<Response<List<UpcomingBookings>>> GetUpcomingBookings(int resourceId);
         Task<Response<List<BookingResponse>>> GetAllBookings();
+        Task<Response<BookingResponse>> GetBookingById(int id);
         Task<Response<int>> UpdateBooking(UpdateBooking request);
         Task<Response<int>> DeleteBooking(int bookingId);
     }
