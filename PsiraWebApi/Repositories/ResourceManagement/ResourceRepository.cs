@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
-using PsiraWebApi.Entities;
-using PsiraWebApi.Repositories.PostManagement.Models;
-using PsiraWebApi.Wrappers;
+using Microsoft.EntityFrameworkCore;
 using ResourceBookingSystemAPI.Entities;
 using ResourceBookingSystemAPI.Interfaces;
 using ResourceBookingSystemAPI.Repositories.ResourceManagement.Model;
+using ResourceBookingSystemAPI.Wrappers;
 
 namespace ResourceBookingSystemAPI.Repositories.ResourceManagement
 {
@@ -12,10 +11,12 @@ namespace ResourceBookingSystemAPI.Repositories.ResourceManagement
     {
         private readonly IRepository<Resource> _repository;
         private readonly IMapper _mapper;
-        public ResourceRepository(IRepository<Resource> repository, IMapper mapper)
+        private readonly IApplicationDbContext _db;
+        public ResourceRepository(IRepository<Resource> repository, IMapper mapper, IApplicationDbContext db)
         {
             _repository = repository;
             _mapper = mapper;
+            _db = db;
         }
 
         public async Task<Response<int>> AddResource(ResourceRequest model)
@@ -67,5 +68,32 @@ namespace ResourceBookingSystemAPI.Repositories.ResourceManagement
                 return new Response<ResourceResponse>(ex.Message);
             }
         }
+
+        public async Task<Response<int>> UpdateResource(UpdateResource request)
+        {
+            try
+            {
+                if (request == null)
+                    return new Response<int>("Data is missing.");
+
+                var resource = await _db.Resource.FirstOrDefaultAsync(x => x.ResourceId == request.ResourceId);
+                if (resource == null)
+                    return new Response<int>("Resource does not exist.");
+
+                _mapper.Map(request, resource);
+                // Add updated date if needed: resource.ModifiedDate = DateTime.Now;
+
+                _repository.Update(resource);
+                await _repository.SaveChangesAsync();
+
+                return new Response<int>(resource.ResourceId, "Resource Updated Successfully.");
+            }
+            catch (Exception ex)
+            {
+                // Optionally log ex
+                return new Response<int>("Error while updating Resource.");
+            }
+        }
+
     }
 }

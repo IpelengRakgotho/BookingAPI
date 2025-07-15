@@ -1,4 +1,4 @@
-﻿namespace PsiraWebApi.Wrappers
+﻿namespace ResourceBookingSystemAPI.Wrappers
 {
     public class Response<T>
     {

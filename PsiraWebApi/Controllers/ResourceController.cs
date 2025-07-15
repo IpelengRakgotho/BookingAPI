@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PsiraWebApi.Interfaces;
+
 
 using ResourceBookingSystemAPI.Interfaces;
 using ResourceBookingSystemAPI.Repositories.ResourceManagement.Model;
@@ -46,6 +46,18 @@ namespace ResourceBookingSystemAPI.Controllers
         public async Task<IActionResult> GetResourceByID(int id)
         {
             var response = await _resourceRepository.GetResourceById(id);
+            if (response.Succeeded)
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+        [HttpPut]
+        [Route("UpdateResource")]
+        public async Task<IActionResult> Update(UpdateResource resource)
+        {
+            var response = await _resourceRepository.UpdateResource(resource);
             if (response.Succeeded)
             {
                 return Ok(response);

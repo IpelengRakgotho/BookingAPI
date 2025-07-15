@@ -1,5 +1,5 @@
-﻿using PsiraWebApi.Wrappers;
-using ResourceBookingSystemAPI.Repositories.ResourceManagement.Model;
+﻿using ResourceBookingSystemAPI.Repositories.ResourceManagement.Model;
+using ResourceBookingSystemAPI.Wrappers;
 
 namespace ResourceBookingSystemAPI.Interfaces
 {
@@ -8,5 +8,6 @@ namespace ResourceBookingSystemAPI.Interfaces
         Task<Response<int>> AddResource(ResourceRequest model);
         Task<Response<List<ResourceResponse>>> GetAllResources();
         Task<Response<ResourceResponse>> GetResourceById(int id);
+        Task<Response<int>> UpdateResource(UpdateResource request);
     }
 }

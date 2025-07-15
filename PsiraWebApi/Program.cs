@@ -1,11 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using PsiraWebApi.Interfaces;
 using Microsoft.Extensions.Configuration;
 using AutoMapper;
-//using PsiraWebApi.Repository;
-using PsiraWebApi.Repositories.UserManagement;
-using PsiraWebApi.Repositories.PostManagement;
-using PsiraWebApi.Repositories.LookupManagement;
 using ResourceBookingSystemAPI.DBData;
 using ResourceBookingSystemAPI.Interfaces;
 using ResourceBookingSystemAPI.Repositories;
