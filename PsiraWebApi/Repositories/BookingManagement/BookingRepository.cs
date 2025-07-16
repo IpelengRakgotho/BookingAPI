@@ -23,14 +23,14 @@ namespace ResourceBookingSystemAPI.Repositories.BookingManagement
         public async Task<Response<int>> AddBooking(BookingRequest request)
         {
             try
-            {
-                if (request == null)
+            {   
+                if (request == null) // check if the object is null
                     return new Response<int>("Booking data is missing.");
 
-                if (request.StartTime < DateTime.Now)
+                if (request.StartTime < DateTime.Now)    
                     return new Response<int>("Start time cannot be in the past.");
 
-                if (request.EndTime <= request.StartTime)
+                if (request.EndTime <= request.StartTime)   //Endtime cannot be before the start time
                     return new Response<int>("End time must be strictly after the start time.");
 
                 var resource = await _db.Resource.FirstOrDefaultAsync(r => r.ResourceId == request.ResourceId);
@@ -41,9 +41,9 @@ namespace ResourceBookingSystemAPI.Repositories.BookingManagement
                     .Where(b => b.ResourceId == request.ResourceId &&
                                 b.StartTime < request.EndTime &&
                                 b.EndTime > request.StartTime)
-                    .FirstOrDefaultAsync();
+                    .FirstOrDefaultAsync();         
 
-                if (conflictingBooking != null)
+                if (conflictingBooking != null)  //check if the slot is already booked
                 {
                     return new Response<int>("This resource is already booked during the requested time. Please choose another slot or resource, or adjust your times.");
                 }
@@ -68,8 +68,8 @@ namespace ResourceBookingSystemAPI.Repositories.BookingManagement
             }
         }
 
-
-        public async Task<Response<List<UpcomingBookings>>> GetUpcomingBookings(int resourceId)
+        //upcoming bookings for a specific resource
+        public async Task<Response<List<UpcomingBookings>>> GetUpcomingBookings(int resourceId) 
         {
             try
             {
@@ -99,7 +99,7 @@ namespace ResourceBookingSystemAPI.Repositories.BookingManagement
 
         
 
-        public async Task<Response<List<BookingResponse>>> GetAllBookings()
+        public async Task<Response<List<BookingResponse>>> GetAllBookings() //Get all bookings in the system
         {
             try
             {
@@ -145,7 +145,7 @@ namespace ResourceBookingSystemAPI.Repositories.BookingManagement
             }
         }
 
-        public async Task<Response<int>> UpdateBooking(UpdateBooking request)
+        public async Task<Response<int>> UpdateBooking(UpdateBooking request)   //Update Booking
         {
             try
             {

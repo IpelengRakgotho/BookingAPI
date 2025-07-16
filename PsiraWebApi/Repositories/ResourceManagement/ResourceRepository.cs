@@ -19,7 +19,7 @@ namespace ResourceBookingSystemAPI.Repositories.ResourceManagement
             _db = db;
         }
 
-        public async Task<Response<int>> AddResource(ResourceRequest model)
+        public async Task<Response<int>> AddResource(ResourceRequest model) // Add a new resource
         {
             try
             {
@@ -35,7 +35,7 @@ namespace ResourceBookingSystemAPI.Repositories.ResourceManagement
 
         }
 
-        public async Task<Response<List<ResourceResponse>>> GetAllResources()
+        public async Task<Response<List<ResourceResponse>>> GetAllResources()  //Get a list of Resources
         {
             try
             {
