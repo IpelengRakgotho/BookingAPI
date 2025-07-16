@@ -1,11 +1,24 @@
-﻿namespace ResourceBookingSystemAPI.Repositories.ResourceManagement.Model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ResourceBookingSystemAPI.Repositories.ResourceManagement.Model
 {
     public class ResourceRequest
     {
-        public string? Name { get; set; }
-        public string? Description { get; set; }
-        public string? Location { get; set; }
+        [Required(ErrorMessage = "Name is required.")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "Location is required.")]
+        public string Location { get; set; }
+
+        [Required(ErrorMessage = "Description is required.")]
+        public string Description { get; set; }
+
+        [Required(ErrorMessage = "Availability is required.")]
+        public bool? IsAvailable{ get; set; } 
+
+
+        [Required(ErrorMessage = "Capacity is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Capacity must be at least 1.")]
         public int? Capacity { get; set; }
-        public bool? IsAvailable { get; set; }
     }
 }

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using ResourceBookingSystemAPI.Entities;
 using ResourceBookingSystemAPI.Interfaces;
 using ResourceBookingSystemAPI.Repositories.BookingManagement.Model;
-using ResourceBookingSystemAPI.Repositories.ResourceManagement.Model;
 using ResourceBookingSystemAPI.Wrappers;
 
 namespace ResourceBookingSystemAPI.Repositories.BookingManagement
@@ -28,10 +27,26 @@ namespace ResourceBookingSystemAPI.Repositories.BookingManagement
                 if (request == null)
                     return new Response<int>("Booking data is missing.");
 
-                // Check that resource exists
+                if (request.StartTime < DateTime.Now)
+                    return new Response<int>("Start time cannot be in the past.");
+
+                if (request.EndTime <= request.StartTime)
+                    return new Response<int>("End time must be strictly after the start time.");
+
                 var resource = await _db.Resource.FirstOrDefaultAsync(r => r.ResourceId == request.ResourceId);
                 if (resource == null)
                     return new Response<int>("Resource not found.");
+
+                var conflictingBooking = await _db.Booking
+                    .Where(b => b.ResourceId == request.ResourceId &&
+                                b.StartTime < request.EndTime &&
+                                b.EndTime > request.StartTime)
+                    .FirstOrDefaultAsync();
+
+                if (conflictingBooking != null)
+                {
+                    return new Response<int>("This resource is already booked during the requested time. Please choose another slot or resource, or adjust your times.");
+                }
 
                 var booking = new Booking
                 {
@@ -47,12 +62,12 @@ namespace ResourceBookingSystemAPI.Repositories.BookingManagement
 
                 return new Response<int>(booking.BookingId, "Booking added successfully.");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // Optionally log ex
                 return new Response<int>("Error while adding booking.");
             }
         }
+
 
         public async Task<Response<List<UpcomingBookings>>> GetUpcomingBookings(int resourceId)
         {
@@ -82,27 +97,14 @@ namespace ResourceBookingSystemAPI.Repositories.BookingManagement
             }
         }
 
-        //public async Task<Response<List<BookingResponse>>> GetAllBookings()
-        //{
-        //    try
-        //    {
-        //        var booking = await _repository.GetAllAsync();
-        //        var response = _mapper.Map<List<BookingResponse>>(booking);
-
-        //        return new Response<List<BookingResponse>>(response);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return new Response<List<BookingResponse>>(ex.Message);
-        //    }
-        //}
+        
 
         public async Task<Response<List<BookingResponse>>> GetAllBookings()
         {
             try
             {
                 var bookings = await _db.Booking
-                    .Include(b => b.Resource) // assuming navigation property exists
+                    .Include(b => b.Resource) 
                     .Select(b => new BookingResponse
                     {
                         BookingId = b.BookingId,
@@ -111,7 +113,7 @@ namespace ResourceBookingSystemAPI.Repositories.BookingManagement
                         EndTime = (DateTime)b.EndTime,
                         BookedBy = b.BookedBy,
                         Purpose = b.Purpose,
-                        ResourceName = b.Resource.Name  // <-- Include resource name
+                        ResourceName = b.Resource.Name  
                     })
                     .ToListAsync();
 
